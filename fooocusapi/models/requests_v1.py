@@ -113,7 +113,7 @@ class ImgInpaintOrOutpaintRequest(CommonRequest):
     def as_form(
             cls,
             input_image: UploadFile = Form(description="Init image for inpaint or outpaint"),
-            input_mask: UploadFile = Form(File(None), description="Inpaint or outpaint mask"),
+            input_mask: UploadFile = Form(None, description="Inpaint or outpaint mask"),
             inpaint_additional_prompt: str | None = Form("", description="Describe what you want to inpaint"),
             outpaint_selections: List[str] = Form([], description="Outpaint expansion selections, literal 'Left', 'Right', 'Top', 'Bottom' separated by comma"),
             outpaint_distance_left: int = Form(default=0, description="Set outpaint left distance, -1 for default"),
@@ -173,15 +173,15 @@ class ImgPromptRequest(ImgInpaintOrOutpaintRequest):
     @classmethod
     def as_form(
             cls,
-            input_image: UploadFile = Form(File(None), description="Init image for inpaint or outpaint"),
-            input_mask: UploadFile = Form(File(None), description="Inpaint or outpaint mask"),
+            input_image: UploadFile = Form(None, description="Init image for inpaint or outpaint"),
+            input_mask: UploadFile = Form(None, description="Inpaint or outpaint mask"),
             inpaint_additional_prompt: str | None = Form(default='', description="Describe what you want to inpaint"),
             outpaint_selections: List[str] = Form([], description="Outpaint expansion selections, literal 'Left', 'Right', 'Top', 'Bottom' separated by comma"),
             outpaint_distance_left: int = Form(default=0, description="Set outpaint left distance, 0 for default"),
             outpaint_distance_right: int = Form(default=0, description="Set outpaint right distance, 0 for default"),
             outpaint_distance_top: int = Form(default=0, description="Set outpaint top distance, 0 for default"),
             outpaint_distance_bottom: int = Form(default=0, description="Set outpaint bottom distance, 0 for default"),
-            cn_img1: UploadFile = Form(File(None), description="Input image for image prompt"),
+            cn_img1: UploadFile = Form(None, description="Input image for image prompt"),
             cn_stop1: float | None = Form(
                 default=None, ge=0, le=1, description="Stop at for image prompt, None for default value"),
             cn_weight1: float | None = Form(
@@ -189,7 +189,7 @@ class ImgPromptRequest(ImgInpaintOrOutpaintRequest):
             cn_type1: ControlNetType = Form(
                 default=ControlNetType.cn_ip, description="ControlNet type for image prompt"),
             cn_img2: UploadFile = Form(
-                File(None), description="Input image for image prompt"),
+                None, description="Input image for image prompt"),
             cn_stop2: float | None = Form(
                 default=None, ge=0, le=1, description="Stop at for image prompt, None for default value"),
             cn_weight2: float | None = Form(
@@ -197,7 +197,7 @@ class ImgPromptRequest(ImgInpaintOrOutpaintRequest):
             cn_type2: ControlNetType = Form(
                 default=ControlNetType.cn_ip, description="ControlNet type for image prompt"),
             cn_img3: UploadFile = Form(
-                File(None), description="Input image for image prompt"),
+                None, description="Input image for image prompt"),
             cn_stop3: float | None = Form(
                 default=None, ge=0, le=1, description="Stop at for image prompt, None for default value"),
             cn_weight3: float | None = Form(
@@ -205,7 +205,7 @@ class ImgPromptRequest(ImgInpaintOrOutpaintRequest):
             cn_type3: ControlNetType = Form(
                 default=ControlNetType.cn_ip, description="ControlNet type for image prompt"),
             cn_img4: UploadFile = Form(
-                File(None), description="Input image for image prompt"),
+                None, description="Input image for image prompt"),
             cn_stop4: float | None = Form(
                 default=None, ge=0, le=1, description="Stop at for image prompt, None for default value"),
             cn_weight4: float | None = Form(
@@ -277,7 +277,7 @@ class ImageEnhanceRequest(CommonRequest):
     """
     Image Enhance Request
     """
-    enhance_input_image: UploadFile = Form(File(None), description="Input image for enhance")
+    enhance_input_image: UploadFile = Form(None, description="Input image for enhance")
     enhance_checkbox: bool = Form(default=True, description="Enhance checkbox")
     enhance_uov_method: UpscaleOrVaryMethod = Form(default=UpscaleOrVaryMethod.strong_variation, description="Upscale or vary method")
     enhance_uov_processing_order: str = Form(default="Before First Enhancement", description="Upscale or vary processing order")
@@ -288,7 +288,7 @@ class ImageEnhanceRequest(CommonRequest):
     @classmethod
     def as_form(
             cls,
-            enhance_input_image: UploadFile = Form(File(None), description="Input image for enhance"),
+            enhance_input_image: UploadFile = Form(None, description="Input image for enhance"),
             enhance_checkbox: bool = Form(default=True, description="Enhance checkbox"),
             enhance_uov_method: UpscaleOrVaryMethod = Form(default=UpscaleOrVaryMethod.strong_variation, description="Upscale or vary method"),
             enhance_uov_processing_order: str = Form(default="Before First Enhancement", description="Upscale or vary processing order"),

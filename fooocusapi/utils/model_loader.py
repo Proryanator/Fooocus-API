@@ -5,8 +5,21 @@ Download models from url
 
 @file: model_loader.py
 @author: Konie
-@update: 2024-03-22 
+@update: 2024-03-22
 """
+
+import sys
+import os
+
+sys.path.insert(
+    0,
+    os.path.join(
+        os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+        "repositories",
+        "Fooocus",
+    ),
+)
+
 from modules.model_loader import load_file_from_url
 
 
@@ -15,9 +28,18 @@ def download_models():
     Download models from config
     """
     vae_approx_filenames = [
-        ('xlvaeapp.pth', 'https://huggingface.co/lllyasviel/misc/resolve/main/xlvaeapp.pth'),
-        ('vaeapp_sd15.pth', 'https://huggingface.co/lllyasviel/misc/resolve/main/vaeapp_sd15.pt'),
-        ('xl-to-v1_interposer-v3.1.safetensors', 'https://huggingface.co/lllyasviel/misc/resolve/main/xl-to-v1_interposer-v3.1.safetensors')
+        (
+            "xlvaeapp.pth",
+            "https://huggingface.co/lllyasviel/misc/resolve/main/xlvaeapp.pth",
+        ),
+        (
+            "vaeapp_sd15.pth",
+            "https://huggingface.co/lllyasviel/misc/resolve/main/vaeapp_sd15.pt",
+        ),
+        (
+            "xl-to-v1_interposer-v3.1.safetensors",
+            "https://huggingface.co/lllyasviel/misc/resolve/main/xl-to-v1_interposer-v3.1.safetensors",
+        ),
     ]
 
     from modules.config import (
@@ -28,7 +50,8 @@ def download_models():
         path_embeddings as embeddings_path,
         checkpoint_downloads,
         embeddings_downloads,
-        lora_downloads)
+        lora_downloads,
+    )
 
     for file_name, url in checkpoint_downloads.items():
         load_file_from_url(url=url, model_dir=modelfile_path[0], file_name=file_name)
@@ -40,7 +63,7 @@ def download_models():
         load_file_from_url(url=url, model_dir=vae_approx_path, file_name=file_name)
 
     load_file_from_url(
-        url='https://huggingface.co/lllyasviel/misc/resolve/main/fooocus_expansion.bin',
+        url="https://huggingface.co/lllyasviel/misc/resolve/main/fooocus_expansion.bin",
         model_dir=fooocus_expansion_path,
-        file_name='pytorch_model.bin'
+        file_name="pytorch_model.bin",
     )

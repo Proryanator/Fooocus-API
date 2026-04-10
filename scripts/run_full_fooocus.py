@@ -1,24 +1,21 @@
 #!/usr/bin/env python3
 """
-Clone and run full Fooocus alongside Fooocus API.
+Start full Fooocus GUI.
 Reads version from repositories/Fooocus/fooocus_version.py, clones official
-Fooocus repo to repositories/fooocus-full, and starts both servers.
+Fooocus repo to repositories/fooocus-full if needed, and starts the full Fooocus UI.
 """
 
 import os
 import sys
 import subprocess
-import shutil
 import re
 
 REPOS_DIR = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "repositories"
 )
-FOOOCUS_API_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FOOOCUS_VERSION_FILE = os.path.join(REPOS_DIR, "Fooocus", "fooocus_version.py")
 FOOOCUS_FULL_DIR = os.path.join(REPOS_DIR, "fooocus-full")
 FOOOCUS_REPO_URL = "https://github.com/lllyasviel/Fooocus.git"
-FOOOCUS_API_PORT = "8888"
 FOOOCUS_FULL_PORT = "7865"
 
 
@@ -32,8 +29,8 @@ def get_fooocus_version():
     return match.group(1)
 
 
-def clone_fooocus_full(version):
-    """Clone official Fooocus repo at the matching version tag."""
+def ensure_fooocus_full_clone(version):
+    """Ensure official Fooocus repo is cloned at the matching version tag."""
     if os.path.exists(FOOOCUS_FULL_DIR):
         print(f"fooocus-full already exists at {FOOOCUS_FULL_DIR}, skipping clone.")
         return
@@ -56,32 +53,12 @@ def clone_fooocus_full(version):
     print(f"Cloned Fooocus v{version} to {FOOOCUS_FULL_DIR}")
 
 
-def start_fooocus_api():
-    """Start Fooocus API server."""
-    print("Starting Fooocus API on port 8888...")
-    conda_env = os.environ.get("CONDA_DEFAULT_ENV", "fooocus-api")
-    subprocess.Popen(
-        [
-            "conda",
-            "run",
-            "-n",
-            conda_env,
-            "--live-stream",
-            "python",
-            "main.py",
-            "--host",
-            "0.0.0.0",
-        ],
-        cwd=FOOOCUS_API_DIR,
-    )
-
-
 def start_fooocus_full():
     """Start full Fooocus web UI server."""
-    print("Starting Full Fooocus on port 7865...")
+    print(f"Starting Full Fooocus on port {FOOOCUS_FULL_PORT}...")
     conda_env = os.environ.get("CONDA_DEFAULT_ENV", "fooocus-api")
-    # Full Fooocus uses python entrypoint.py with port flag
-    subprocess.Popen(
+    # Full Fooocus uses python entry_with_update.py with port flag
+    subprocess.run(
         [
             "conda",
             "run",
@@ -89,7 +66,7 @@ def start_fooocus_full():
             conda_env,
             "--live-stream",
             "python",
-            "entrypoint_with_update.py",
+            "entry_with_update.py",
             "--port",
             FOOOCUS_FULL_PORT,
             "--listen"
@@ -102,13 +79,10 @@ def main():
     version = get_fooocus_version()
     print(f"Fooocus version: {version}")
 
-    clone_fooocus_full(version)
-    start_fooocus_api()
+    ensure_fooocus_full_clone(version)
     start_fooocus_full()
 
-    print(f"\nServers starting:")
-    print(f"  Fooocus API: http://localhost:{FOOOCUS_API_PORT}")
-    print(f"  Full Fooocus: http://localhost:{FOOOCUS_FULL_PORT}")
+    print(f"\nFull Fooocus running at: http://localhost:{FOOOCUS_FULL_PORT}")
 
 
 if __name__ == "__main__":

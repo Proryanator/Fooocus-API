@@ -19,8 +19,7 @@ done
 
 echo "======================================"
 if [ "$RUN_FULL" -eq 1 ]; then
-    echo "Starting Fooocus API with Full Fooocus..."
-    echo "Fooocus API will be accessible at: http://$LOCAL_IP:8888"
+    echo "Starting Full Fooocus GUI (v2.5.3)..."
     echo "Full Fooocus will be accessible at: http://$LOCAL_IP:7865"
 else
     echo "Starting Fooocus API..."
@@ -32,8 +31,8 @@ echo "======================================"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 if [ "$RUN_FULL" -eq 1 ]; then
-    # Run both servers via Python script
-    python "$SCRIPT_DIR/scripts/clone_and_run_full_fooocus.py"
+    # Run only full Fooocus GUI (no API)
+    python "$SCRIPT_DIR/scripts/run_full_fooocus.py"
 else
     # just starts the server for you; run setup.sh if you have not done so already
     conda run -n fooocus-api --live-stream python main.py --host 0.0.0.0

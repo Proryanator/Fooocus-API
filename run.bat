@@ -1,8 +1,6 @@
 @echo off
 SETLOCAL ENABLEDELAYEDEXPANSION
 
-@echo off
-
 SET "PATH=C:\Miniconda3;C:\Miniconda3\Scripts;%PATH%"
 
 :: Get local IP
@@ -13,12 +11,43 @@ FOR /F "tokens=2 delims=:" %%A IN ('ipconfig ^| findstr /i "IPv4"') DO (
 )
 :breakLoop
 
+:: Parse flags
+SET RUN_FULL=0
+:parseArgs
+IF "%~1"=="" GOTO :endParse
+IF "%~1"=="-f" (
+    SET RUN_FULL=1
+    SHIFT
+    GOTO :parseArgs
+)
+IF "%~1"=="-F" (
+    SET RUN_FULL=1
+    SHIFT
+    GOTO :parseArgs
+)
+SHIFT
+GOTO :parseArgs
+:endParse
+
 echo ======================================
-echo Starting Fooocus API...
-echo It will be accessible on your network at:
-echo http://%LOCAL_IP%:8888
+IF "%RUN_FULL%"=="1" (
+    echo Starting Full Fooocus GUI...
+    echo Full Fooocus will be accessible at: http://%LOCAL_IP%:7865
+) ELSE (
+    echo Starting Fooocus API...
+    echo It will be accessible on your network at:
+    echo http://%LOCAL_IP%:8888
+)
 echo ======================================
 
-:: Just runs the server; please run setup.bat if you have not already
-conda run -n fooocus-api --live-stream python main.py --host 0.0.0.0
+SET "SCRIPT_DIR=%~dp0"
+SET "SCRIPT_DIR=%SCRIPT_DIR:~0,-1%"
+
+IF "%RUN_FULL%"=="1" (
+    :: Run full Fooocus GUI using Python script
+    python "%SCRIPT_DIR%\scripts\run_full_fooocus.py"
+) ELSE (
+    :: Just runs the server; please run setup.bat if you have not already
+    conda run -n fooocus-api --live-stream python main.py --host 0.0.0.0
+)
 pause

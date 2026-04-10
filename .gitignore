@@ -49,3 +49,4 @@ outputs
 *.http
 hash_cache.txt
 /Miniconda3-latest-Windows-x86_64.exe
+/repositories/fooocus-full/

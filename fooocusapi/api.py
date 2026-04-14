@@ -81,7 +81,7 @@ async def delete_file(file_name: str):
     # find the file path given just the file name alone
     for file in glob.iglob(os.path.join(f"{file_utils.output_dir}", "**", "*"), recursive=True):
         if file_name in file:
-            print(f"Deleting file: ${file_name}")
+            print(f"Deleting file: {file}")
             os.remove(file)
             return Response(status_code=200)
 

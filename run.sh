@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Get local IP
-LOCAL_IP=$(ipconfig getifaddr en0 || ipconfig getifaddr en1)
-
 # Parse flags
 RUN_FULL=0
 while getopts "f" opt; do
@@ -20,11 +17,11 @@ done
 echo "======================================"
 if [ "$RUN_FULL" -eq 1 ]; then
     echo "Starting Full Fooocus GUI (v2.5.3)..."
-    echo "Full Fooocus will be accessible at: http://$LOCAL_IP:7865"
+    echo "Full Fooocus will be accessible at: http://<your_mac_ip_address>:7865"
 else
     echo "Starting Fooocus API..."
     echo "It will be accessible on your network at:"
-    echo "http://$LOCAL_IP:8888"
+    echo "http://<your_mac_ip_address>:8888"
 fi
 echo "======================================"
 

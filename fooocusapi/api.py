@@ -79,7 +79,7 @@ async def get_output(date: str, file_name: str, accept: str = Header(None)):
 @app.delete("/files/{file_name}", tags=["Query"])
 async def delete_file(file_name: str):
     # find the file path given just the file name alone
-    for file in glob.iglob(f"{file_utils.output_dir}/**/*", recursive=True):
+    for file in glob.iglob(os.path.join(f"{file_utils.output_dir}", "**", "*"), recursive=True):
         if file_name in file:
             print(f"Deleting file: ${file_name}")
             os.remove(file)

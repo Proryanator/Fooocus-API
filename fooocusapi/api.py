@@ -4,6 +4,7 @@ Entry for startup fastapi server
 import glob
 import logging
 import os
+import sys
 
 from fastapi import FastAPI, Header, Response, Request, status
 from fastapi.responses import FileResponse, JSONResponse
@@ -82,7 +83,12 @@ async def delete_file(file_name: str):
     for file in glob.iglob(os.path.join(f"{file_utils.output_dir}", "**", "*"), recursive=True):
         if file_name in file:
             print(f"Deleting file: {file}")
-            os.remove(file)
+
+            if os.name == 'nt' or sys.platform == 'darwin':
+                os.remove(file)
+            else:
+                os.remove(file.replace("/", "\\\\"))
+
             return Response(status_code=200)
 
     # file was not found

@@ -1,7 +1,10 @@
 """
 Entry for startup fastapi server
 """
+import glob
 import logging
+import os
+
 from fastapi import FastAPI, Header, Response, Request, status
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.exceptions import RequestValidationError
@@ -72,6 +75,19 @@ async def get_output(date: str, file_name: str, accept: str = Header(None)):
             return Response(status_code=404)
     img = await convert_image(f"{file_utils.output_dir}/{date}/{file_name}", ext)
     return Response(content=img, media_type=f"image/{ext}")
+
+@app.delete("/files/{file_name}", tags=["Query"])
+async def delete_file(file_name: str):
+    # find the file path given just the file name alone
+    for file in glob.iglob(f"{file_utils.output_dir}/**/*", recursive=True):
+        if file_name in file:
+            print(f"Deleting file: ${file_name}")
+            os.remove(file)
+            return Response(status_code=200)
+
+    # file was not found
+    return Response(status_code=404)
+
 
 
 app.include_router(query)

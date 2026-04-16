@@ -33,7 +33,7 @@ fi
 
 # Accept Anaconda terms of service for channels
 echo "Accepting Anaconda terms of service..."
-$CONDA tos accept -override-channels -channel https://repo.anaconda.com/pkgs/main || true
+$CONDA tos accept --override-channels -channel https://repo.anaconda.com/pkgs/main || true
 $CONDA tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r || true
 
 # Create environment using conda run (no activation needed)

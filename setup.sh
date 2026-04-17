@@ -4,9 +4,11 @@ set -e
 
 echo "===== Fooocus API Setup Script ====="
 
+# Hardcode conda path for reliability
+CONDA="$HOME/miniconda/bin/conda"
+
 # Check for conda
-if ! command -v conda &> /dev/null
-then
+if [ ! -f "$CONDA" ]; then
     echo "Conda not found. Installing Miniconda..."
 
     ARCH=$(uname -m)
@@ -22,26 +24,35 @@ then
     export PATH="$HOME/miniconda/bin:$PATH"
 
     echo "Initializing conda..."
-    conda init bash
+    $CONDA init bash
     source "$HOME/miniconda/etc/profile.d/conda.sh"
 else
     echo "Conda already installed."
-    source "$(conda info --base)/etc/profile.d/conda.sh"
+    source "$HOME/miniconda/etc/profile.d/conda.sh"
 fi
 
-# Create environment
-echo "Creating conda environment..."
-conda create -y -n fooocus-api python=3.10
+# Accept Anaconda terms of service for channels
+echo "Accepting Anaconda terms of service..."
+$CONDA tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main || true
+$CONDA tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r || true
 
-conda activate fooocus-api
+# Create environment using conda run (no activation needed)
+echo "Creating conda environment..."
+$CONDA create -y -n fooocus-api python=3.10
 
 # Optional: install torch with MPS (Mac GPU acceleration)
 echo "Installing PyTorch with MPS support..."
-pip install torch torchvision torchaudio
+$CONDA run -n fooocus-api --live-stream pip install torch torchvision torchaudio
 
 # Download models using model_loader
 echo "Downloading models..."
-conda run -n fooocus-api --live-stream python -c "from fooocusapi.utils.model_loader import download_models; download_models()"
+$CONDA run -n fooocus-api --live-stream python -c "from fooocusapi.utils.model_loader import download_models; download_models()"
 
 # run the run.sh shell script
+echo ""
+echo "NOTE: If you get a macOS firewall prompt asking about Python accepting"
+echo "incoming network connections, go to System Settings > Privacy & Security"
+echo "and allow Python (python3.10) for local network access."
+echo ""
+
 ./run.sh

@@ -32,5 +32,5 @@ if [ "$RUN_FULL" -eq 1 ]; then
     python "$SCRIPT_DIR/scripts/run_full_fooocus.py"
 else
     # just starts the server for you; run setup.sh if you have not done so already
-    conda run -n fooocus-api --live-stream python main.py --host 0.0.0.0
+    $CONDA run -n fooocus-api --live-stream python main.py --host 0.0.0.0
 fi

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Hardcode conda path for reliability
+CONDA="$HOME/miniconda/bin/conda"
+
 # Parse flags
 RUN_FULL=0
 while getopts "f" opt; do

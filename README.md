@@ -6,9 +6,7 @@ There are scripts in here to get you up and running immediately.
 
 ## Quick Start
 
-_Note: it is recommended that you do a `git clone` so you can get updates automatically but, this is not required_
-
-1. Download the latest copy of this project, either via `git clone ...` from the [main page](https://github.com/Proryanator/Fooocus-API) or downloading a [.zip file](https://github.com/Proryanator/Fooocus-API/archive/refs/heads/main.zip). If you downloaded the .zip, unzip the folder
+1. Download the project from: [here](https://github.com/Proryanator/Fooocus-API/archive/refs/heads/main.zip). Unzip if not already unzipped.
 2. Follow the instructions based on your operating system: [macOS](#macos) or [Windows](#windows)
 3. If you didn't do it from the operating system specific instructions; Take note of the ip address shown in the output of the server, should look like:
 
@@ -27,9 +25,11 @@ http://[your-ip-address]:8888
 If running for the first time, do the following:
 
 1. Open a terminal
-2. `cd` into the `Fooocus-API` directory
-3. Run `./setup.sh`
-4. Take note of the ip address shown in the output of the server, should look like:
+2. `cd` into the `Fooocus-API-main` directory (might be named `Fooocus-API` depending on how you downloaded it)
+3. Run `./setup.sh`; this will _take a while_ due to auto-installing all that it needs, including all the supported models (~53GB worth of files)
+4. Take note of the ip address your mac is using (check `System Settings -> Network -> Wifi -> Details -> TCP/IP` or `System Settings -> Network -> Wired -> IP address`)
+
+Once you see the following, you are ready to enter the ip address into your app and begin:
 
 ```shell
 ======================================
@@ -44,8 +44,12 @@ If you are re-running the server after doing an initial setup, you can just run 
 
 ### Windows
 
-1. Double-click on the `setup.bat` file (that's it!). Note, if you get any errors during the install, you may need to run `setup.bat` twice (sometimes pip install hangs)
-2. Take note of the ip address shown in the output of the server, should look like:
+1. Put the folder on a drive that you have about 50GB of free space on, and extract the .zip file
+2. In the extracted folder, double-click on the `setup.bat` file; this will _take a while_ due to auto-installing all that it needs, including all the supported models (~53GB worth of files)
+3. Note, if you get any errors during the install, you may need to run `setup.bat` twice (sometimes pip install hangs)
+4. Take note of the ip address shown in the output of the server, should look like:
+
+Once you see the following, you are ready to enter the ip address into your app and begin:
 
 ```shell
 ======================================
